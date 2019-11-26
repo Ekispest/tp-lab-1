@@ -1,35 +1,33 @@
 #include "task5.h"
-#include<malloc.h>
-#include<string.h>
-#include <iostream>
-
-
-void split(char ***result, int *N, char *buf, char ch){
-
-    *N = 1;
-
+#include <cstring>
+//Created by Rimma Anvarovna
+void split(char*** result, int* N, char* buf, char ch)
+{
+    int colSep = 0;
+    char* newBuf = new char[strlen(buf)+1];
     for (int i = 0; i < strlen(buf); i++)
-        if (*(buf + i) == ch)
-            (*N)++;
+    {
+        newBuf[i] = buf[i];
+        if (buf[i] == ch)
+            colSep++;
+    }
+    newBuf[strlen(buf)] = '\0';
+    char** res = new char* [colSep + 1];
 
-    *result = (char**) malloc((*N) * sizeof(char*));
-
-    int startIndex = 0;
-    int counter = 0;
-    for (int i = 0; i < strlen(buf); i++) {
-        if (*(buf + i) == ch) {
-            char *sub = (char *) malloc((strlen(buf) + 1) * sizeof(char));
-            strncpy(sub, buf + startIndex, i - startIndex);
-            sub[i - startIndex + 2] = '\0';
-            *(*result + counter++) = sub;
-            startIndex = i + 1;
+    res[0] = newBuf;
+    int j = 1;
+    for (int i = 0; i < strlen(buf); i++)
+    {
+        if (buf[i] == ch)
+        {
+            newBuf[i] = '\0';
+            if (i != strlen(buf)-1)
+            {
+                res[j] = &newBuf[i + 1];
+                j++;
+            }
         }
     }
-
-    char *sub = (char *) malloc((strlen(buf) + 1) * sizeof(char));
-    strncpy(sub, buf + startIndex, strlen(buf) - startIndex);
-    *(*result + counter) = sub;
-
+    *result = res;
+    *N = colSep + 1;
 }
-
-
