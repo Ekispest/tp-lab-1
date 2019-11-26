@@ -1,41 +1,55 @@
-#include <cstring>
-#include <algorithm>
+#include "task4.h"
+#include <string.h>
 
-//
-// Created by artem on 08.10.2019.
-//
-char * sum(char *x, char *y){
-    int mind = 0;
-    int lenX = strlen(x);
-    int lenY = strlen(y);
+char* sum(char *x, char *y)
+{
+	int lenX = strlen(x);
+	int lenY = strlen(y);
+	int max = 0,
+		rest = 0;
+	if (lenX > lenY)
+		max = lenX;
+	else
+		max = lenY;
+	char *sum = new char[max];
+	char numX, numY;
+	char *quanity;
+	lenX--;
+	lenY--;
+	int num = 0;
+	for (int i = max - 1; i >= 0; i--, lenX--, lenY--)
+	{
+		if (lenX >= 0)
+			numX = x[lenX];
+		else
+			numX = '0';
+		if (lenY >= 0)
+			numY = y[lenY];
+		else
+			numY = '0';
 
-    int lenR = std::max(lenX, lenY);
-    char *result = new char[lenR + 2];
+		sum[i] = ((((numX + numY) - 2 * '0') + rest) % 10) + '0';
+		rest = (((numX + numY) - 2 * '0') + rest) / 10;
+	}
 
-    while (true)
-    {
-        int sum = 0;
-        if (lenR == 0) {
-            result[lenR] = (char)(mind + 48);
-            break;
-        }
-        if (--lenX >= 0 && --lenY >= 0)
-            sum = *(x + lenX) - 48 + *(y + lenY) - 48 + mind;
-        else if (lenX >= 0)
-            sum = *(x + lenX) - 48 + mind;
-        else
-            sum = *(x + lenY) - 48 + mind;
-        if (sum > 9){
-            mind = 1;
-            sum %= 10;
-        } else
-            mind = 0;
-        result[lenR] = (char)(sum + 48);
-        lenR--;
+	if (rest)
+	{
+		quanity = new char[max + 2];
 
-    }
-
-    if (result[0] == '0')
-        result++;
-    return result;
+		for (int i = max; i > 0; i--)
+		{
+			quanity[i] = sum[i - 1];
+		}
+		quanity[0] = '1';
+		quanity[max + 1] = '\0';
+	}
+	else        
+	{
+		quanity = new char[max + 1];
+		for (int i = 0; i < max; i++) {
+			quanity[i] = sum[i];
+		}
+		quanity[max] = '\0';
+	}
+	return quanity;
 }

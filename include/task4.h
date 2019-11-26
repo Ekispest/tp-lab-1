@@ -1,4 +1,4 @@
-#ifndef UNTITLED3_TASK4_H
-#define UNTITLED3_TASK4_H
+#ifndef Task4_h
+#define Task4_h
 char * sum(char *x, char *y);
-#endif //UNTITLED3_TASK4_H
+#endif
